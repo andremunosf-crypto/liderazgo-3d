@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>¿Los líderes nacen o se hacen? · JA Impulso 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100%;height:100%;overflow:hidden;background:#000;color:#fff;font-family:'Space Grotesk',sans-serif;}
+#c{position:fixed;top:0;left:0;z-index:0;display:block;}
+#scan{position:fixed;inset:0;z-index:2;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);}
+#vig{position:fixed;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,0.75) 100%);}
+#prog{position:fixed;top:0;left:0;height:2px;z-index:50;background:linear-gradient(90deg,#8b5cf6,#22d3ee,#f97316);transition:width .6s cubic-bezier(.16,1,.3,1);box-shadow:0 0 12px rgba(139,92,246,.8);}
+.hud{position:fixed;width:28px;height:28px;z-index:20;pointer-events:none;}
+.hud-tl{top:18px;left:18px;border-top:1.5px solid rgba(139,92,246,.5);border-left:1.5px solid rgba(139,92,246,.5);}
+.hud-tr{top:18px;right:18px;border-top:1.5px solid rgba(139,92,246,.5);border-right:1.5px solid rgba(139,92,246,.5);}
+.hud-bl{bottom:60px;left:18px;border-bottom:1.5px solid rgba(139,92,246,.5);border-left:1.5px solid rgba(139,92,246,.5);}
+.hud-br{bottom:60px;right:18px;border-bottom:1.5px solid rgba(139,92,246,.5);border-right:1.5px solid rgba(139,92,246,.5);}
+#lbl{position:fixed;top:22px;left:50%;transform:translateX(-50%);z-index:20;font-size:9px;letter-spacing:4px;color:rgba(255,255,255,.2);text-transform:uppercase;pointer-events:none;}
+#ui{position:fixed;inset:0;z-index:10;pointer-events:none;}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:60px 72px 96px;opacity:0;pointer-events:none;transform:translateY(50px) scale(.96);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);}
+.slide.active{opacity:1;transform:translateY(0) scale(1);pointer-events:all;}
+.slide.out{opacity:0;transform:translateY(-50px) scale(1.04);}
+.slide.right-content{padding-left:50%;padding-right:48px;}
+.slide.left-content{padding-right:50%;padding-left:72px;}
+.tag{font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:5px 16px;border-radius:20px;display:inline-block;margin-bottom:20px;width:fit-content;font-weight:600;border:1px solid;}
+.t-v{background:rgba(139,92,246,.12);border-color:rgba(139,92,246,.4);color:#a78bfa;}
+.t-c{background:rgba(6,182,212,.1);border-color:rgba(6,182,212,.35);color:#22d3ee;}
+.t-o{background:rgba(249,115,22,.1);border-color:rgba(249,115,22,.35);color:#fb923c;}
+.t-g{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.35);color:#34d399;}
+.ht{font-family:'Syne',sans-serif;font-size:58px;font-weight:900;line-height:1.0;letter-spacing:-2px;}
+.gv{background:linear-gradient(135deg,#a78bfa,#818cf8,#67e8f9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.go{background:linear-gradient(135deg,#fb923c,#fbbf24);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.gc{background:linear-gradient(135deg,#22d3ee,#6ee7b7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.gg{background:linear-gradient(135deg,#34d399,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.st{font-family:'Syne',sans-serif;font-size:40px;font-weight:800;line-height:1.05;letter-spacing:-1.5px;}
+.sub{font-size:16px;color:rgba(255,255,255,.45);line-height:1.8;max-width:520px;margin-top:14px;font-weight:300;}
+.cg{display:grid;gap:10px;margin-top:16px;}
+.g2{grid-template-columns:1fr 1fr;}.g3{grid-template-columns:1fr 1fr 1fr;}
+.card{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:16px;transition:all .3s;backdrop-filter:blur(10px);}
+.card:hover{background:rgba(255,255,255,.07);border-color:rgba(139,92,246,.3);transform:translateY(-3px);}
+.ci{font-size:22px;margin-bottom:8px;}.ct{font-size:13px;font-weight:700;margin-bottom:4px;}.cd{font-size:12px;color:rgba(255,255,255,.4);line-height:1.55;}
+.vrow{display:flex;gap:14px;margin-top:22px;}
+.vbtn{flex:1;padding:20px 16px;border-radius:14px;border:1.5px solid transparent;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;transition:all .35s;text-align:center;line-height:1.7;pointer-events:all;}
+.va{background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.3);color:#a78bfa;}
+.vb{background:rgba(6,182,212,.1);border-color:rgba(6,182,212,.3);color:#22d3ee;}
+.vbtn:hover{transform:translateY(-4px) scale(1.02);}
+.va.sel{background:rgba(139,92,246,.25);border-color:#a78bfa;box-shadow:0 0 40px rgba(139,92,246,.35);}
+.vb.sel{background:rgba(6,182,212,.2);border-color:#22d3ee;box-shadow:0 0 40px rgba(6,182,212,.3);}
+.vres{margin-top:14px;font-size:14px;color:rgba(255,255,255,.4);min-height:22px;}
+.pyr{display:flex;flex-direction:column;align-items:center;gap:5px;margin-top:12px;}
+.pr{border-radius:8px;height:40px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;cursor:pointer;transition:all .25s;position:relative;letter-spacing:.8px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.6);}
+.pr:hover{filter:brightness(1.4);transform:scaleX(1.05);z-index:5;}
+.ptt{position:absolute;right:calc(100%+12px);top:50%;transform:translateY(-50%);background:#0a0a14;border:1px solid rgba(139,92,246,.3);border-radius:10px;padding:10px 14px;font-size:11px;color:rgba(255,255,255,.75);width:170px;line-height:1.5;pointer-events:none;opacity:0;transition:opacity .2s;z-index:30;font-weight:400;}
+.pr:hover .ptt{opacity:1;}
+.lg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px;}
+.lc{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:13px;padding:14px;text-align:center;transition:all .25s;backdrop-filter:blur(8px);}
+.lc:hover{background:rgba(139,92,246,.09);border-color:rgba(139,92,246,.28);transform:translateY(-3px);}
+.le{font-size:24px;margin-bottom:6px;}.ln{font-size:13px;font-weight:700;}.lo{font-size:11px;color:#a78bfa;margin:3px 0 5px;}.lf{font-size:11px;color:rgba(255,255,255,.38);line-height:1.4;}
+.iag{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+.iai{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:13px;padding:14px;display:flex;gap:12px;backdrop-filter:blur(8px);}
+.iab{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.iat{font-size:13px;font-weight:700;color:#fff;margin-bottom:3px;}.iad{font-size:11px;color:rgba(255,255,255,.38);line-height:1.45;}
+.abox{background:rgba(139,92,246,.06);border:1px solid rgba(139,92,246,.2);border-radius:16px;padding:20px;margin-top:12px;backdrop-filter:blur(10px);}
+.asteps{display:flex;flex-direction:column;gap:12px;margin-top:10px;}
+.astep{display:flex;gap:12px;align-items:flex-start;}
+.asn{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#a78bfa,#818cf8);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;}
+.ast{font-size:14px;color:rgba(255,255,255,.6);line-height:1.55;padding-top:3px;}
+.qbig{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;line-height:1.4;border-left:3px solid #a78bfa;padding-left:18px;margin:14px 0 18px;color:rgba(255,255,255,.92);}
+.cgg{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.cc{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:14px 17px;}
+.cl{font-size:10px;color:#a78bfa;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;}.cv{font-size:13px;color:rgba(255,255,255,.2);}
+/* YouTube overlay pulse */
+@keyframes pulse-ring{0%{transform:scale(.95);box-shadow:0 0 0 0 rgba(249,115,22,.5);}70%{transform:scale(1);box-shadow:0 0 0 14px rgba(249,115,22,0);}100%{transform:scale(.95);box-shadow:0 0 0 0 rgba(249,115,22,0);}}
+.play-btn{animation:pulse-ring 2s infinite;}
+/* Baymax float */
+@keyframes bmax-float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+#baymax-svg{animation:bmax-float 3s ease-in-out infinite;}
+/* NAV */
+#nav{position:fixed;bottom:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:12px 72px;background:rgba(0,0,0,.8);backdrop-filter:blur(24px);border-top:1px solid rgba(255,255,255,.05);}
+.nb{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);color:rgba(255,255,255,.8);padding:9px 24px;border-radius:8px;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:500;transition:all .2s;}
+.nb:hover{background:rgba(139,92,246,.25);border-color:rgba(139,92,246,.5);}.nb:disabled{opacity:.2;cursor:default;}
+.dots{display:flex;gap:7px;align-items:center;}
+.dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.18);cursor:pointer;transition:all .35s;}
+.dot.active{background:#a78bfa;width:26px;border-radius:4px;box-shadow:0 0 12px rgba(167,139,250,.7);}
+.sn{font-size:12px;color:rgba(255,255,255,.25);}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="scan"></div>
+<div id="vig"></div>
+<div id="prog"></div>
+<div class="hud hud-tl"></div><div class="hud hud-tr"></div>
+<div class="hud hud-bl"></div><div class="hud hud-br"></div>
+<div id="lbl">JA · Proyecto Impulso 2026</div>
+
+<div id="ui">
+
+<!-- S1: PORTADA -->
+<div class="slide active" id="s1">
+  <div class="tag t-v">Junior Achievement · Proyecto Impulso 2026</div>
+  <div class="ht">¿Los líderes<br><span class="gv">nacen</span> o se<br><span class="gc">hacen?</span></div>
+  <p class="sub">La era de la IA cambió las reglas.<br>Descubre qué significa liderar cuando la tecnología es para todos.</p>
+</div>
+
+<!-- S2: VOTE -->
+<div class="slide" id="s2">
+  <div class="tag t-v">Actividad de apertura · Vota ahora</div>
+  <div class="st">¿Tú qué <span class="gv">crees?</span></div>
+  <p class="sub" style="margin-top:10px">No hay respuesta incorrecta. Solo tu intuición honesta.</p>
+  <div class="vrow">
+    <div class="vbtn va" id="vna" onclick="vote('n')">🧬<br><strong>Los líderes nacen</strong><br><span style="font-size:12px;font-weight:400;opacity:.6">Es un talento innato</span></div>
+    <div class="vbtn vb" id="vha" onclick="vote('h')">🛠️<br><strong>Los líderes se hacen</strong><br><span style="font-size:12px;font-weight:400;opacity:.6">Habilidad que se entrena</span></div>
+  </div>
+  <div class="vres" id="vr"></div>
+</div>
+
+<!-- S3: BIG HERO 6 — con video YouTube + Baymax SVG animado -->
+<div class="slide" id="s3" style="padding:50px 60px 96px;">
+  <div class="tag t-o" style="margin-bottom:12px;">Inspiración · Big Hero 6</div>
+  <div style="display:grid;grid-template-columns:1.1fr 0.9fr;gap:22px;flex:1;min-height:0;height:calc(100vh - 200px);max-height:500px;">
+
+    <!-- LEFT: título + video YT -->
+    <div style="display:flex;flex-direction:column;gap:10px;min-height:0;">
+      <div class="st" style="font-size:30px;line-height:1.15;">Hiro <span class="go">no nació</span> siendo líder —<br><span style="font-size:18px;color:rgba(255,255,255,.5);font-weight:400;">y Baymax lo prueba todo</span></div>
+
+      <!-- Video container -->
+      <div style="position:relative;border-radius:16px;overflow:hidden;border:1px solid rgba(249,115,22,.35);box-shadow:0 0 40px rgba(249,115,22,.15);flex:1;min-height:0;">
+        <iframe id="yt-frame"
+          src="about:blank"
+          style="width:100%;height:100%;border:none;display:block;background:#000;"
+          allow="autoplay; encrypted-media; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+        <!-- Play overlay -->
+        <div id="yt-overlay" onclick="activateVideo()" style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,.75),rgba(15,5,30,.8));display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;gap:12px;">
+          <div class="play-btn" style="width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,#f97316,#fbbf24);display:flex;align-items:center;justify-content:center;box-shadow:0 0 30px rgba(249,115,22,.7);">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:4px;">Big Hero 6 · Clip oficial</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.5);letter-spacing:1px;">▶ REPRODUCIR</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- mini cards row -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;flex-shrink:0;">
+        <div class="card" style="padding:11px;display:flex;gap:10px;align-items:flex-start;">
+          <span style="font-size:18px;">🧠</span>
+          <div><div class="ct" style="color:#a78bfa;font-size:12px;margin-bottom:2px;">Conocerse primero</div><div class="cd" style="font-size:11px;">Lidera a sí mismo antes de liderar a otros.</div></div>
+        </div>
+        <div class="card" style="padding:11px;display:flex;gap:10px;align-items:flex-start;">
+          <span style="font-size:18px;">👥</span>
+          <div><div class="ct" style="color:#fb923c;font-size:12px;margin-bottom:2px;">Confiar en el equipo</div><div class="cd" style="font-size:11px;">Cada miembro aporta algo único e insustituible.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Baymax SVG animado + cards -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:10px;min-height:0;">
+      <div style="font-size:10px;letter-spacing:2.5px;color:rgba(255,255,255,.28);text-transform:uppercase;">Baymax · IA con corazón</div>
+
+      <!-- Baymax SVG flotante mejorado -->
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;width:100%;">
+        <svg id="baymax-svg" viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg"
+          style="width:160px;height:auto;filter:drop-shadow(0 0 22px rgba(139,92,246,.65)) drop-shadow(0 0 8px rgba(255,255,255,.3));">
+          <defs>
+            <radialGradient id="bodyGrad" cx="40%" cy="35%" r="65%">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="100%" stop-color="#d4d4d8"/>
+            </radialGradient>
+            <radialGradient id="headGrad" cx="40%" cy="30%" r="65%">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="100%" stop-color="#e4e4e7"/>
+            </radialGradient>
+            <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <!-- glow ring base -->
+          <ellipse cx="100" cy="235" rx="55" ry="10" fill="rgba(139,92,246,0.25)"/>
+          <!-- legs -->
+          <ellipse cx="76" cy="218" rx="20" ry="17" fill="url(#bodyGrad)"/>
+          <ellipse cx="124" cy="218" rx="20" ry="17" fill="url(#bodyGrad)"/>
+          <!-- body -->
+          <ellipse cx="100" cy="160" rx="62" ry="68" fill="url(#bodyGrad)"/>
+          <!-- body crease lines -->
+          <path d="M 55 145 Q 100 138 145 145" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="2"/>
+          <path d="M 50 165 Q 100 156 150 165" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="1.5"/>
+          <!-- arms -->
+          <ellipse cx="34" cy="155" rx="17" ry="38" fill="url(#bodyGrad)"/>
+          <ellipse cx="166" cy="155" rx="17" ry="38" fill="url(#bodyGrad)"/>
+          <!-- hands -->
+          <ellipse cx="34" cy="190" rx="14" ry="12" fill="url(#bodyGrad)"/>
+          <ellipse cx="166" cy="190" rx="14" ry="12" fill="url(#bodyGrad)"/>
+          <!-- neck -->
+          <rect x="88" y="82" width="24" height="14" rx="7" fill="#e4e4e7"/>
+          <!-- head -->
+          <ellipse cx="100" cy="66" rx="46" ry="44" fill="url(#headGrad)"/>
+          <!-- eye slit -->
+          <rect x="62" y="62" width="76" height="7" rx="3.5" fill="#1a1a2e"/>
+          <!-- eye shine -->
+          <ellipse cx="85" cy="64" rx="6" ry="2.5" fill="rgba(255,255,255,0.6)"/>
+          <ellipse cx="115" cy="64" rx="6" ry="2.5" fill="rgba(255,255,255,0.6)"/>
+          <!-- sensor dot (red) -->
+          <circle cx="100" cy="112" r="7" fill="#e11d48" filter="url(#glow)"/>
+          <circle cx="100" cy="112" r="4" fill="#fb7185"/>
+          <circle cx="98" cy="110" r="2" fill="rgba(255,255,255,0.6)"/>
+          <!-- purple tech glow ring around body -->
+          <ellipse cx="100" cy="160" rx="67" ry="73" fill="none" stroke="rgba(139,92,246,0.35)" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <ellipse cx="100" cy="160" rx="74" ry="80" fill="none" stroke="rgba(139,92,246,0.15)" stroke-width="1" stroke-dasharray="3 6"/>
+        </svg>
+      </div>
+
+      <!-- 2 more cards -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;flex-shrink:0;">
+        <div class="card" style="padding:11px;display:flex;gap:10px;align-items:flex-start;">
+          <span style="font-size:18px;">🤖</span>
+          <div><div class="ct" style="color:#22d3ee;font-size:12px;margin-bottom:2px;">IA con propósito</div><div class="cd" style="font-size:11px;">La IA potencia al líder, no lo reemplaza.</div></div>
+        </div>
+        <div class="card" style="padding:11px;display:flex;gap:10px;align-items:flex-start;">
+          <span style="font-size:18px;">🌱</span>
+          <div><div class="ct" style="color:#fbbf24;font-size:12px;margin-bottom:2px;">Crecer desde el error</div><div class="cd" style="font-size:11px;">Los líderes aprenden y siguen sin rendirse.</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- S4: PIRÁMIDE -->
+<div class="slide left-content" id="s4">
+  <div class="tag t-v">La pirámide del liderazgo</div>
+  <div class="st">Nivel <span class="gv">por nivel</span></div>
+  <p style="font-size:12px;color:rgba(255,255,255,.3);margin:6px 0 8px;">Pasa el mouse sobre cada nivel ↓</p>
+  <div class="pyr">
+    <div class="pr" style="width:170px;background:linear-gradient(90deg,#7c3aed,#6d28d9);">⚫ Responsable<div class="ptt">Toma decisiones y asume las consecuencias. El nivel más difícil y valioso.</div></div>
+    <div class="pr" style="width:230px;background:linear-gradient(90deg,#0d9488,#0891b2);">🟢 Apoyo al equipo<div class="ptt">No busca ser la estrella. Busca que todos brillen y crezcan juntos.</div></div>
+    <div class="pr" style="width:290px;background:linear-gradient(90deg,#b45309,#d97706);">🟣 Inspiracional<div class="ptt">Motiva con el ejemplo y los valores. No solo con las palabras.</div></div>
+    <div class="pr" style="width:350px;background:linear-gradient(90deg,#b91c1c,#dc2626);">🟠 Contextual<div class="ptt">Entiende el entorno. Ve oportunidades donde otros ven problemas.</div></div>
+    <div class="pr" style="width:410px;background:linear-gradient(90deg,#1d4ed8,#2563eb);">🔵 Relacional<div class="ptt">Comunicación, empatía, equipo. Liderar es saber escuchar primero.</div></div>
+    <div class="pr" style="width:470px;background:linear-gradient(90deg,#9d174d,#be185d);">🔴 Personal — la base<div class="ptt">Conocerse. No puedes liderar a otros si no te lideras primero a ti.</div></div>
+  </div>
+</div>
+
+<!-- S5: LÍDERES -->
+<div class="slide" id="s5">
+  <div class="tag t-c">Líderes del mundo tech</div>
+  <div class="st">Ellos también <span class="gc">se hicieron</span></div>
+  <div class="lg">
+    <div class="lc"><div class="le">🚀</div><div class="ln">Jeff Bezos</div><div class="lo">Amazon</div><div class="lf">Empezó en un garaje. Hoy Amazon automatiza millones de procesos con IA.</div></div>
+    <div class="lc"><div class="le">🤖</div><div class="ln">Sam Altman</div><div class="lo">OpenAI · ChatGPT</div><div class="lf">Convirtió investigación técnica en herramienta usada por +100M de personas.</div></div>
+    <div class="lc"><div class="le">⚡</div><div class="ln">Elon Musk</div><div class="lo">Tesla · SpaceX</div><div class="lf">Reprogramó industrias: autos eléctricos, cohetes y internet satelital.</div></div>
+    <div class="lc"><div class="le">🧬</div><div class="ln">Dario Amodei</div><div class="lo">Anthropic · Claude</div><div class="lf">Lidera la IA más segura. La ética también es liderazgo tecnológico.</div></div>
+    <div class="lc"><div class="le">🌍</div><div class="ln">Líderes LatAm</div><div class="lo">Innovación regional</div><div class="lf">Transformando Lima, Bogotá, Santiago con tecnología y propósito.</div></div>
+    <div class="lc" style="border-color:rgba(139,92,246,.35);background:rgba(139,92,246,.09);"><div class="le">⭐</div><div class="ln">¿Y tú?</div><div class="lo">Próxima generación</div><div class="lf">Todos ellos fueron adolescentes que decidieron aprender y no rendirse.</div></div>
+  </div>
+</div>
+
+<!-- S6: IA PARA TODOS -->
+<div class="slide right-content" id="s6">
+  <div class="tag t-o">La revolución de la IA</div>
+  <div class="st">Tecnología <span class="go">para todos</span></div>
+  <p class="sub" style="margin-top:6px;">Por primera vez, las herramientas más poderosas están en tu celular.</p>
+  <div class="iag">
+    <div class="iai"><div class="iab" style="background:rgba(139,92,246,.2)">🧠</div><div><div class="iat">IA generativa</div><div class="iad">ChatGPT, Claude, Gemini. Cualquiera puede crear contenido y soluciones sin ser experto.</div></div></div>
+    <div class="iai"><div class="iab" style="background:rgba(249,115,22,.2)">📦</div><div><div class="iat">Automatización masiva</div><div class="iad">Amazon usa robots e IA en almacenes. Los líderes del futuro deben dirigirlos.</div></div></div>
+    <div class="iai"><div class="iab" style="background:rgba(6,182,212,.2)">🌍</div><div><div class="iat">Democratización real</div><div class="iad">Un chico en Lima compite con Silicon Valley usando las mismas herramientas.</div></div></div>
+    <div class="iai"><div class="iab" style="background:rgba(250,204,21,.2)">🎯</div><div><div class="iat">El diferencial es humano</div><div class="iad">La IA no tiene empatía ni propósito. Eso lo pones tú. Ahí el liderazgo importa más.</div></div></div>
+  </div>
+</div>
+
+<!-- S7: ACTIVIDAD TED TALK -->
+<div class="slide left-content" id="s7">
+  <div class="tag t-g">Actividad grupal · TED Talk</div>
+  <div class="st">Tu momento <span class="gg">TED Talk</span></div>
+  <p class="sub" style="margin-top:6px;">3 minutos por grupo. Hablen como líderes.</p>
+  <div class="abox">
+    <div class="asteps">
+      <div class="astep"><div class="asn">1</div><div class="ast"><strong style="color:#fff">Elijan un problema</strong> real de su colegio o comunidad que quieran cambiar.</div></div>
+      <div class="astep"><div class="asn">2</div><div class="ast"><strong style="color:#fff">Propongan una solución</strong> con tecnología o IA: app, bot, plataforma o idea digital.</div></div>
+      <div class="astep"><div class="asn">3</div><div class="ast"><strong style="color:#fff">Presenten en 3 min.</strong> Un portavoz habla, pero la idea es de todo el equipo.</div></div>
+      <div class="astep"><div class="asn">4</div><div class="ast"><strong style="color:#fff">Voten la más inspiradora.</strong> El proceso importa tanto como el resultado final.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- S8: CIERRE -->
+<div class="slide" id="s8">
+  <div class="tag t-v">Cierre · Tu compromiso</div>
+  <div class="st">El liderazgo empieza <span class="gv">hoy</span></div>
+  <div class="qbig">"No eres extraordinario porque naciste diferente.<br>Eres extraordinario porque decides crecer cada día."</div>
+  <div class="cgg">
+    <div class="cc"><div class="cl">Me lideraré mejor en</div><div class="cv">_______________________</div></div>
+    <div class="cc"><div class="cl">Exploraré esta tecnología</div><div class="cv">_______________________</div></div>
+    <div class="cc"><div class="cl">Ayudaré a alguien en</div><div class="cv">_______________________</div></div>
+    <div class="cc"><div class="cl">Seré responsable de</div><div class="cv">_______________________</div></div>
+  </div>
+</div>
+
+</div><!-- /ui -->
+
+<div id="nav">
+  <button class="nb" id="bp" onclick="APP.go(-1)" disabled>← Anterior</button>
+  <div class="dots" id="dots"></div>
+  <div style="display:flex;align-items:center;gap:14px">
+    <span class="sn" id="sn">1 / 8</span>
+    <button class="nb" id="bn" onclick="APP.go(1)">Siguiente →</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+var APP = (function() {
+  'use strict';
+
+  /* ── RENDERER ── */
+  var W = window.innerWidth, H = window.innerHeight;
+  var canvas = document.getElementById('c');
+  var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+  renderer.setSize(W, H);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x000008, 1);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.1;
+
+  var scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x000008, 0.018);
+
+  var camera = new THREE.PerspectiveCamera(55, W / H, 0.1, 200);
+  camera.position.set(0, 1, 12);
+
+  /* ── LIGHTS ── */
+  scene.add(new THREE.AmbientLight(0x111133, 3));
+  var keyL  = new THREE.PointLight(0x8b5cf6, 10, 30); keyL.position.set(-6,8,6);   scene.add(keyL);
+  var fillL = new THREE.PointLight(0x22d3ee, 8, 25);  fillL.position.set(7,2,4);   scene.add(fillL);
+  var rimL  = new THREE.PointLight(0xf97316, 5, 20);  rimL.position.set(0,-4,-6);  scene.add(rimL);
+  var topL  = new THREE.PointLight(0xa78bfa, 6, 30);  topL.position.set(0,10,0);   scene.add(topL);
+
+  /* ── GRID ── */
+  var grid = new THREE.GridHelper(80, 60, 0x1a0840, 0x0c0320);
+  grid.position.y = -5; scene.add(grid);
+
+  /* ── PARTICLES ── */
+  var PC = 3000;
+  var pGeo = new THREE.BufferGeometry();
+  var pArr = new Float32Array(PC * 3), cArr = new Float32Array(PC * 3);
+  var palette = [new THREE.Color(0x8b5cf6),new THREE.Color(0x22d3ee),new THREE.Color(0xf97316),new THREE.Color(0xa78bfa),new THREE.Color(0x818cf8),new THREE.Color(0x67e8f9)];
+  for (var i = 0; i < PC; i++) {
+    pArr[i*3]=(Math.random()-.5)*80; pArr[i*3+1]=(Math.random()-.5)*50; pArr[i*3+2]=(Math.random()-.5)*40;
+    var c=palette[Math.floor(Math.random()*palette.length)]; cArr[i*3]=c.r; cArr[i*3+1]=c.g; cArr[i*3+2]=c.b;
+  }
+  pGeo.setAttribute('position', new THREE.BufferAttribute(pArr,3));
+  pGeo.setAttribute('color',    new THREE.BufferAttribute(cArr,3));
+  var pts = new THREE.Points(pGeo, new THREE.PointsMaterial({size:.065,vertexColors:true,transparent:true,opacity:.85}));
+  scene.add(pts);
+
+  /* ── TORUS KNOT ── */
+  var tkG = new THREE.TorusKnotGeometry(2.4,.14,180,16,2,3);
+  var tk  = new THREE.Mesh(tkG, new THREE.MeshPhongMaterial({color:0x4c1d95,emissive:0x1e0a4f,shininess:80,transparent:true,opacity:.4}));
+  var tkW = new THREE.Mesh(tkG, new THREE.MeshBasicMaterial({color:0x7c3aed,wireframe:true,transparent:true,opacity:.1}));
+  tk.position.set(-6,0,-6); tkW.position.copy(tk.position);
+  scene.add(tk); scene.add(tkW);
+
+  /* ── FLOATERS ── */
+  var floaters = [];
+  var fPool=[new THREE.IcosahedronGeometry(.5,0),new THREE.OctahedronGeometry(.45),new THREE.TetrahedronGeometry(.55),new THREE.TorusGeometry(.35,.1,6,12)];
+  for (var fi=0;fi<18;fi++){
+    var fm=new THREE.MeshPhongMaterial({color:palette[fi%palette.length].getHex(),emissive:palette[fi%palette.length].getHex(),emissiveIntensity:.2,shininess:160,transparent:true,opacity:.45+Math.random()*.3,wireframe:fi%5===0});
+    var fmesh=new THREE.Mesh(fPool[fi%fPool.length],fm);
+    fmesh.position.set((Math.random()-.5)*28,(Math.random()-.5)*15,(Math.random()-.5)*10-2);
+    floaters.push({m:fmesh,rx:Math.random()*.015,ry:Math.random()*.018,ox:fmesh.position.x,oy:fmesh.position.y,ph:Math.random()*Math.PI*2});
+    scene.add(fmesh);
+  }
+
+  /* ── RINGS ── */
+  var rings=[];
+  [{r:3.5,c:0x8b5cf6},{r:5.2,c:0x22d3ee},{r:7,c:0xf97316}].forEach(function(d,i){
+    var rm=new THREE.Mesh(new THREE.TorusGeometry(d.r,.03,8,90),new THREE.MeshBasicMaterial({color:d.c,transparent:true,opacity:.1+i*.03}));
+    rm.rotation.x=Math.PI/3+i*.4; rm.position.set(5.5,0,-2); rings.push(rm); scene.add(rm);
+  });
+
+  /* ── HERO GROUP (per-slide 3D object) ── */
+  var heroGroup = new THREE.Group(); scene.add(heroGroup);
+  function clearHero(){ while(heroGroup.children.length) heroGroup.remove(heroGroup.children[0]); }
+
+  /* Builder helpers */
+  function phong(col,emi,shi){ return new THREE.MeshPhongMaterial({color:col,emissive:emi||col,emissiveIntensity:.3,shininess:shi||160}); }
+
+  /* S1: DNA helix */
+  function buildDNA(){
+    clearHero(); heroGroup.position.set(5,0,0);
+    for(var j=0;j<40;j++){
+      var t=(j/40)*Math.PI*6, y=-4+j*0.22;
+      [0,Math.PI].forEach(function(off,side){
+        var s=new THREE.Mesh(new THREE.SphereGeometry(.14,8,8),phong(side===0?0xa78bfa:0x22d3ee));
+        s.position.set(Math.cos(t+off)*1.3,y,Math.sin(t+off)*1.3); heroGroup.add(s);
+      });
+      if(j%3===0){
+        var cyl=new THREE.Mesh(new THREE.CylinderGeometry(.035,.035,2.6,4),new THREE.MeshBasicMaterial({color:0x4c1d95,transparent:true,opacity:.35}));
+        cyl.position.set(0,y,0); cyl.rotation.z=Math.PI/2; cyl.rotation.y=t; heroGroup.add(cyl);
+      }
+    }
+  }
+
+  /* S2: Question orb */
+  function buildOrb(){
+    clearHero(); heroGroup.position.set(5,0,0);
+    var og=new THREE.SphereGeometry(2,48,48);
+    heroGroup.add(new THREE.Mesh(og,new THREE.MeshPhongMaterial({color:0x4c1d95,emissive:0x2d0f69,shininess:120,transparent:true,opacity:.5})));
+    heroGroup.add(new THREE.Mesh(og,new THREE.MeshBasicMaterial({color:0xa78bfa,wireframe:true,transparent:true,opacity:.18})));
+    [2.1,2.8,3.5].forEach(function(r,i){
+      var rm=new THREE.Mesh(new THREE.TorusGeometry(r,.04,8,80),new THREE.MeshBasicMaterial({color:palette[i].getHex(),transparent:true,opacity:.25}));
+      rm.rotation.x=Math.PI/2+i*.5; heroGroup.add(rm);
+    });
+  }
+
+  /* S3: Baymax-style 3D — round, white, with glowing sensor */
+  function buildBaymax(){
+    clearHero(); heroGroup.position.set(-4.5,-0.5,0);
+    var wht=phong(0xffffff,0xcccccc,220);
+    var wht2=phong(0xeeeeee,0xbbbbbb,200);
+    /* body — big rounded cylinder */
+    heroGroup.add(Object.assign(new THREE.Mesh(new THREE.CylinderGeometry(1.1,1.0,2.2,32),wht),{position:new THREE.Vector3(0,0,0)}));
+    /* belly bump */
+    var belly=new THREE.Mesh(new THREE.SphereGeometry(1.12,32,32),wht);
+    belly.position.set(0,-.2,0); belly.scale.y=.85; heroGroup.add(belly);
+    /* head */
+    var head=new THREE.Mesh(new THREE.SphereGeometry(.88,32,32),wht);
+    head.position.set(0,1.85,0); heroGroup.add(head);
+    /* eye visor (dark strip) */
+    var visor=new THREE.Mesh(new THREE.BoxGeometry(1.1,.14,.7),new THREE.MeshPhongMaterial({color:0x1a1a2e,shininess:300}));
+    visor.position.set(0,1.88,.5); heroGroup.add(visor);
+    /* eye shine */
+    [-.22,.22].forEach(function(x){
+      var shine=new THREE.Mesh(new THREE.SphereGeometry(.08,8,8),new THREE.MeshBasicMaterial({color:0xffffff}));
+      shine.position.set(x,1.9,.56); heroGroup.add(shine);
+    });
+    /* sensor dot RED */
+    var sensor=new THREE.Mesh(new THREE.SphereGeometry(.12,12,12),new THREE.MeshPhongMaterial({color:0xe11d48,emissive:0xe11d48,emissiveIntensity:.9,shininess:300}));
+    sensor.position.set(0,.55,.95); heroGroup.add(sensor);
+    var sensorLight=new THREE.PointLight(0xe11d48,4,3); sensorLight.position.copy(sensor.position); heroGroup.add(sensorLight);
+    /* neck */
+    var neck=new THREE.Mesh(new THREE.CylinderGeometry(.3,.35,.35,16),wht2);
+    neck.position.set(0,1.25,0); heroGroup.add(neck);
+    /* arms */
+    [-1.25,1.25].forEach(function(x){
+      var arm=new THREE.Mesh(new THREE.CapsuleGeometry ? new THREE.CapsuleGeometry(.26,.9,8,16) : new THREE.CylinderGeometry(.26,.24,1.3,16),wht);
+      arm.position.set(x,.1,0); arm.rotation.z=x<0?.25:-.25; heroGroup.add(arm);
+      var hand=new THREE.Mesh(new THREE.SphereGeometry(.3,14,14),wht);
+      hand.position.set(x<0?-1.5:1.5,-.65,0); heroGroup.add(hand);
+    });
+    /* legs */
+    [-0.45,.45].forEach(function(x){
+      var leg=new THREE.Mesh(new THREE.CylinderGeometry(.28,.26,1.1,16),wht2);
+      leg.position.set(x,-1.65,0); heroGroup.add(leg);
+      var foot=new THREE.Mesh(new THREE.SphereGeometry(.33,14,14),wht);
+      foot.position.set(x,-2.2,0); heroGroup.add(foot);
+    });
+    /* purple tech glow rings */
+    [1.6,2.2].forEach(function(r,i){
+      var rg=new THREE.TorusGeometry(r,.025,8,60);
+      var rm=new THREE.Mesh(rg,new THREE.MeshBasicMaterial({color:0xa78bfa,transparent:true,opacity:.2-i*.06}));
+      rm.rotation.x=Math.PI/2; rm.position.y=0; heroGroup.add(rm);
+    });
+  }
+
+  /* S4: Glowing pyramid */
+  function buildPyramid(){
+    clearHero(); heroGroup.position.set(5.5,0,0);
+    [{y:-2.5,s:2.2,col:0xbe185d},{y:-1.5,s:1.8,col:0x1d4ed8},{y:-.5,s:1.4,col:0x991b1b},{y:.5,s:1.0,col:0xb45309},{y:1.3,s:.65,col:0x0d9488},{y:1.9,s:.35,col:0x6d28d9}].forEach(function(l){
+      var m=new THREE.Mesh(new THREE.CylinderGeometry(l.s*.6,l.s,.55,6),phong(l.col,l.col,120));
+      m.position.set(0,l.y,0); heroGroup.add(m);
+      var w=new THREE.Mesh(new THREE.CylinderGeometry(l.s*.6,l.s,.55,6),new THREE.MeshBasicMaterial({color:l.col,wireframe:true,transparent:true,opacity:.25}));
+      w.position.copy(m.position); heroGroup.add(w);
+    });
+  }
+
+  /* S5: Rocket */
+  function buildRocket(){
+    clearHero(); heroGroup.position.set(-5.5,-.5,0);
+    var nose=new THREE.Mesh(new THREE.ConeGeometry(.55,1.5,16),phong(0xa78bfa)); nose.position.set(0,2.25,0); heroGroup.add(nose);
+    var body=new THREE.Mesh(new THREE.CylinderGeometry(.55,.55,3,16),phong(0x818cf8)); heroGroup.add(body);
+    [0,Math.PI/2,Math.PI,Math.PI*1.5].forEach(function(a){
+      var f=new THREE.Mesh(new THREE.BoxGeometry(.08,.8,.8),phong(0x6d28d9));
+      f.position.set(Math.cos(a)*.6,-1.3,Math.sin(a)*.6); f.rotation.y=a; heroGroup.add(f);
+    });
+    var eg=new THREE.PointLight(0xf97316,6,3); eg.position.set(0,-1.8,0); heroGroup.add(eg);
+    var flame=new THREE.Mesh(new THREE.ConeGeometry(.3,.8,12),new THREE.MeshBasicMaterial({color:0xfbbf24,transparent:true,opacity:.7}));
+    flame.rotation.z=Math.PI; flame.position.set(0,-2.2,0); heroGroup.add(flame);
+  }
+
+  /* S6: Neural net brain */
+  function buildBrain(){
+    clearHero(); heroGroup.position.set(5.5,0,0);
+    var nodes=[];
+    for(var ni=0;ni<22;ni++){
+      var nm=new THREE.Mesh(new THREE.SphereGeometry(.12+Math.random()*.1,10,10),phong(palette[ni%palette.length].getHex(),palette[ni%palette.length].getHex(),200));
+      var r=1.2+Math.random()*.9,th=Math.random()*Math.PI*2,ph2=Math.random()*Math.PI;
+      nm.position.set(r*Math.sin(ph2)*Math.cos(th),r*Math.sin(ph2)*Math.sin(th),r*Math.cos(ph2));
+      heroGroup.add(nm); nodes.push(nm.position);
+    }
+    for(var a=0;a<nodes.length;a++) for(var b=a+1;b<nodes.length;b++) if(nodes[a].distanceTo(nodes[b])<1.4){
+      heroGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([nodes[a],nodes[b]]),new THREE.LineBasicMaterial({color:0x6d28d9,transparent:true,opacity:.35})));
+    }
+    heroGroup.add(new THREE.Mesh(new THREE.SphereGeometry(2.2,32,32),new THREE.MeshBasicMaterial({color:0x4c1d95,wireframe:true,transparent:true,opacity:.08})));
+  }
+
+  /* S7: Team cubes */
+  function buildTeam(){
+    clearHero(); heroGroup.position.set(-5.5,0,0);
+    var cols=[0xa78bfa,0x22d3ee,0xfb923c,0x34d399,0xfbbf24];
+    var pos=[[-1.2,0,0],[0,0,0],[1.2,0,0],[-.6,1.4,0],[.6,1.4,0]];
+    pos.forEach(function(p,idx){
+      var bx=new THREE.Mesh(new THREE.BoxGeometry(.7,.7,.7),phong(cols[idx],cols[idx],160));
+      bx.position.set(p[0],p[1],p[2]); bx.rotation.set(Math.random()*.5,Math.random()*.5,Math.random()*.5); heroGroup.add(bx);
+    });
+    [[0,3],[1,3],[1,4],[2,4]].forEach(function(pair){
+      var pa=pos[pair[0]],pb=pos[pair[1]];
+      heroGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(pa[0],pa[1],pa[2]),new THREE.Vector3(pb[0],pb[1],pb[2])]),new THREE.LineBasicMaterial({color:0x8b5cf6,transparent:true,opacity:.5})));
+    });
+  }
+
+  /* S8: Star burst */
+  function buildStar(){
+    clearHero(); heroGroup.position.set(5.5,0,0);
+    for(var si=0;si<12;si++){
+      var ang=(si/12)*Math.PI*2;
+      var ray=new THREE.Mesh(new THREE.CylinderGeometry(.04,.04,2.5,4),new THREE.MeshBasicMaterial({color:palette[si%palette.length].getHex(),transparent:true,opacity:.7}));
+      ray.rotation.z=Math.PI/2; ray.rotation.y=ang; ray.position.set(Math.cos(ang)*1.25,Math.sin(ang)*.3,Math.sin(ang)*1.25); heroGroup.add(ray);
+    }
+    var core=new THREE.Mesh(new THREE.IcosahedronGeometry(.6,1),phong(0xa78bfa,0x6d28d9,200));
+    heroGroup.add(core);
+    heroGroup.add(Object.assign(new THREE.PointLight(0xa78bfa,8,6)));
+  }
+
+  var heroBuilders = [buildDNA, buildOrb, buildBaymax, buildPyramid, buildRocket, buildBrain, buildTeam, buildStar];
+
+  /* ── SLIDE THEMES (light colors per slide) ── */
+  var slideTheme=[[0x8b5cf6,0x22d3ee],[0x7c3aed,0x0891b2],[0xf97316,0xfbbf24],[0x8b5cf6,0x4c1d95],[0x06b6d4,0x0284c7],[0xf97316,0xeab308],[0x10b981,0x22d3ee],[0xa78bfa,0x818cf8]];
+
+  /* ── MOUSE ── */
+  var mx=0, my=0;
+  document.addEventListener('mousemove',function(e){ mx=(e.clientX/window.innerWidth-.5)*2; my=(e.clientY/window.innerHeight-.5)*2; });
+
+  /* ── RENDER LOOP ── */
+  var clock = new THREE.Clock();
+  function animate(){
+    requestAnimationFrame(animate);
+    var el=clock.getElapsedTime();
+    clock.getDelta();
+    camera.position.x+=(mx*1.5-camera.position.x)*.04;
+    camera.position.y+=(1.5-my*1.2-camera.position.y)*.04;
+    camera.lookAt(0,.5,0);
+    tk.rotation.x+=.004; tk.rotation.y+=.007; tkW.rotation.copy(tk.rotation);
+    tk.position.y=Math.sin(el*.5)*.6; tkW.position.y=tk.position.y;
+    floaters.forEach(function(f){ f.m.rotation.x+=f.rx; f.m.rotation.y+=f.ry; f.m.position.y=f.oy+Math.sin(el+f.ph)*1.4; f.m.position.x=f.ox+Math.cos(el*.7+f.ph)*.8; });
+    rings.forEach(function(r,idx){ r.rotation.z+=.004*(idx+1); r.rotation.x+=.002*(idx+1); });
+    pts.rotation.y+=.0002; pts.rotation.x+=.0001;
+    heroGroup.position.y=Math.sin(el*.7)*.22;
+    heroGroup.rotation.y+=.005;
+    fillL.intensity=7+Math.sin(el*1.1)*2.5;
+    topL.intensity=5+Math.cos(el*.85)*2;
+    renderer.render(scene,camera);
+  }
+  animate();
+
+  /* ── SLIDE STATE ── */
+  var cur = 0;
+  var tot = 8;
+  var voted = false;
+
+  var dotsEl=document.getElementById('dots');
+  for(var di=0;di<tot;di++){
+    (function(i){
+      var d=document.createElement('div');
+      d.className='dot'+(i===0?' active':'');
+      d.onclick=function(){ goTo(i); };
+      dotsEl.appendChild(d);
+    })(di);
+  }
+  document.getElementById('prog').style.width=(1/tot*100)+'%';
+  heroBuilders[0]();
+
+  function go(dir){ goTo(cur+dir); }
+
+  function goTo(n){
+    if(n<0||n>=tot) return;
+    var prev=document.getElementById('s'+(cur+1));
+    prev.classList.add('out');
+    setTimeout(function(){ prev.classList.remove('active','out'); },700);
+
+    /* stop video if leaving slide 3 */
+    if(cur===2 && n!==2){
+      var fr=document.getElementById('yt-frame');
+      if(fr) fr.src='about:blank';
+      var ov=document.getElementById('yt-overlay');
+      if(ov) ov.style.display='flex';
+    }
+
+    cur=n;
+    setTimeout(function(){ document.getElementById('s'+(cur+1)).classList.add('active'); },180);
+
+    dotsEl.querySelectorAll('.dot').forEach(function(d,i){ d.classList.toggle('active',i===cur); });
+    document.getElementById('sn').textContent=(cur+1)+' / '+tot;
+    document.getElementById('bp').disabled=cur===0;
+    document.getElementById('bn').disabled=cur===tot-1;
+    document.getElementById('prog').style.width=((cur+1)/tot*100)+'%';
+    var th=slideTheme[cur];
+    keyL.color.setHex(th[0]); fillL.color.setHex(th[1]); rimL.color.setHex(th[0]);
+    heroBuilders[cur]();
+  }
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+  window.addEventListener('resize',function(){
+    W=window.innerWidth; H=window.innerHeight;
+    camera.aspect=W/H; camera.updateProjectionMatrix(); renderer.setSize(W,H);
+  });
+
+  function vote(opt){
+    if(voted) return; voted=true;
+    var el=opt==='n'?document.getElementById('vna'):document.getElementById('vha');
+    el.classList.add('sel');
+    var p=opt==='n'?Math.floor(Math.random()*20)+10:Math.floor(Math.random()*20)+62;
+    document.getElementById('vr').innerHTML='En charlas similares: <strong style="color:#a78bfa">'+(opt==='n'?p:100-p)+'% dice "nacen"</strong> &nbsp;·&nbsp; <strong style="color:#22d3ee">'+(opt==='n'?100-p:p)+'% dice "se hacen"</strong>. ¿Y si los dos tienen razón?';
+  }
+
+  return { go:go, vote:vote };
+})();
+
+/* ── GLOBAL helpers ── */
+function vote(opt){ APP.vote(opt); }
+function activateVideo(){
+  var fr=document.getElementById('yt-frame');
+  var ov=document.getElementById('yt-overlay');
+  if(fr) fr.src='https://www.youtube.com/embed/1kEyEmsyz_8?autoplay=1&mute=0&rel=0&modestbranding=1';
+  if(ov) ov.style.display='none';
+}
+</script>
+</body>
+</html>
